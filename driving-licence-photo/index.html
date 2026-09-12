@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driving Licence Photo Resizer – 420×525 Photo &amp; 256×64 Signature</title>
+  <meta name="description" content="Resize a driving licence photo to 420×525 px, 300 DPI and 10–20 KB, and signature to 256×64 px, 300 DPI and 10–20 KB. Free, works on mobile, nothing is uploaded.">
+  <link rel="canonical" href="https://photoformresizer.com/driving-licence-photo/">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <main class="site-main" id="main-content">
+    <section aria-labelledby="tool-title">
+      <p class="eyebrow" id="tool-title">Driving licence photo and signature tool</p>
+
+      <div class="tool-card">
+        <p class="privacy-note">Images are not uploaded. Everything is processed inside your device.</p>
+
+        <div class="applicant-field">
+          <label for="applicant-name">Applicant name <span>(optional)</span></label>
+          <input id="applicant-name" type="text" autocomplete="name" inputmode="text" placeholder="Example: Ramesh">
+          <small>Used only for download file names.</small>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Driving licence image preparation tools">
+          <button class="tab-button" id="tab-photo" type="button" role="tab" aria-selected="true" aria-controls="panel-photo">Photo</button>
+          <button class="tab-button" id="tab-signature" type="button" role="tab" aria-selected="false" aria-controls="panel-signature" tabindex="-1">Signature</button>
+          <button class="tab-button" id="tab-both" type="button" role="tab" aria-selected="false" aria-controls="panel-both" tabindex="-1">Both + ZIP</button>
+        </div>
+
+        <section class="tab-panel" id="panel-photo" role="tabpanel" aria-labelledby="tab-photo">
+          <div class="editor single-editor" data-editor data-kind="photo" data-file-prefix="driving-licence" data-width="420" data-height="525" data-dpi="300" data-min-kb="10" data-max-kb="20">
+            <label class="upload-box">
+              <span class="upload-title">Upload photograph</span>
+              <span class="upload-hint">Target 420×525 px · 300 DPI · 10–20 KB</span>
+              <input type="file" accept="image/*" data-file>
+            </label>
+
+            <div class="editor-workspace" data-workspace hidden>
+              <div class="preview-wrap">
+                <canvas class="crop-canvas" data-canvas aria-label="Driving licence photograph crop preview"></canvas>
+              </div>
+              <div class="editor-controls">
+                <label class="control-label" for="driving-photo-zoom">Zoom to adjust the crop</label>
+                <div class="zoom-row">
+                  <span class="zoom-mark">Smaller</span>
+                  <input id="driving-photo-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                  <span class="zoom-mark">Larger</span>
+                </div>
+              </div>
+              <div class="editor-actions">
+                <button class="button" type="button" data-download disabled>Download JPEG</button>
+                <p class="editor-status" data-status aria-live="polite">Drag the photo to adjust the crop.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="panel-signature" role="tabpanel" aria-labelledby="tab-signature" hidden>
+          <div class="editor single-editor" data-editor data-kind="signature" data-file-prefix="driving-licence" data-width="256" data-height="64" data-dpi="300" data-min-kb="10" data-max-kb="20">
+            <label class="upload-box">
+              <span class="upload-title">Upload signature</span>
+              <span class="upload-hint">Target 256×64 px · 300 DPI · 10–20 KB</span>
+              <input type="file" accept="image/*" data-file>
+            </label>
+
+            <div class="editor-workspace" data-workspace hidden>
+              <div class="preview-wrap signature-preview">
+                <canvas class="crop-canvas" data-canvas aria-label="Driving licence signature crop preview"></canvas>
+              </div>
+              <div class="editor-controls">
+                <label class="control-label" for="driving-signature-zoom">Zoom to adjust the crop</label>
+                <div class="zoom-row">
+                  <span class="zoom-mark">Smaller</span>
+                  <input id="driving-signature-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                  <span class="zoom-mark">Larger</span>
+                </div>
+              </div>
+              <div class="editor-actions">
+                <button class="button" type="button" data-download disabled>Download JPEG</button>
+                <p class="editor-status" data-status aria-live="polite">Drag the signature to adjust the crop.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="panel-both" role="tabpanel" aria-labelledby="tab-both" hidden>
+          <div class="editor-grid">
+            <div class="editor" data-editor data-kind="photo" data-file-prefix="driving-licence" data-width="420" data-height="525" data-dpi="300" data-min-kb="10" data-max-kb="20">
+              <label class="upload-box">
+                <span class="upload-title">Upload photograph</span>
+                <span class="upload-hint">Prepare the photograph first</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap">
+                  <canvas class="crop-canvas" data-canvas aria-label="Combined driving licence photograph crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="both-driving-photo-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="both-driving-photo-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the photo to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="editor" data-editor data-kind="signature" data-file-prefix="driving-licence" data-width="256" data-height="64" data-dpi="300" data-min-kb="10" data-max-kb="20">
+              <label class="upload-box">
+                <span class="upload-title">Upload signature</span>
+                <span class="upload-hint">Prepare the signature next</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap signature-preview">
+                  <canvas class="crop-canvas" data-canvas aria-label="Combined driving licence signature crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="both-driving-signature-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="both-driving-signature-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the signature to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zip-card">
+            <p class="zip-title">Download both files as one ZIP</p>
+            <p>Upload and adjust both images above, then create one ZIP for your application.</p>
+            <button class="button secondary" type="button" data-zip disabled>Download ZIP</button>
+            <p class="zip-status" data-zip-status aria-live="polite">Waiting for both images.</p>
+          </div>
+        </section>
+      </div>
+
+      <p class="spec-bar"><strong>Photograph</strong> 420×525 px · 300 DPI · 10–20 KB <span aria-hidden="true">|</span> <strong>Signature</strong> 256×64 px · 300 DPI · 10–20 KB</p>
+    </section>
+
+    <h1>Driving Licence Photo Resizer – Resize Photo &amp; Signature Online</h1>
+    <p>Driving licence applications can be delayed when the uploaded photo or signature does not match the required dimensions, DPI, or file size. This free tool prepares both images in your browser, with no upload and no account required.</p>
+
+    <section class="content-section">
+      <h2>Driving Licence Photo and Signature Size Requirements</h2>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Requirement</th>
+              <th scope="col">Photograph</th>
+              <th scope="col">Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Preferred pixel size</th>
+              <td>420 × 525 px (W × H)</td>
+              <td>256 × 64 px (W × H)</td>
+            </tr>
+            <tr>
+              <th scope="row">Print size</th>
+              <td>35 × 45 mm</td>
+              <td>35 × 10.6 mm</td>
+            </tr>
+            <tr>
+              <th scope="row">Resolution</th>
+              <td>300 DPI</td>
+              <td>300 DPI</td>
+            </tr>
+            <tr>
+              <th scope="row">Format</th>
+              <td>JPEG</td>
+              <td>JPEG</td>
+            </tr>
+            <tr>
+              <th scope="row">Color</th>
+              <td>Color</td>
+              <td>Black ink on white paper</td>
+            </tr>
+            <tr>
+              <th scope="row">File size range</th>
+              <td>10–20 KB</td>
+              <td>10–20 KB</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source-note">Source: <a href="https://sarathi.parivahan.gov.in/sarathiservice/pdf/PhotoSign.pdf" rel="noopener noreferrer">Sarathi Parivahan official Photo and Signature Scan &amp; Upload Process</a> (official source).</p>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Resize Photo and Signature for Driving Licence</h2>
+      <ol>
+        <li>Open the Photo tab and upload a recent passport-style colour photograph. Drag the preview and use Zoom to centre your face.</li>
+        <li>Open the Signature tab and upload a signature made with black pen on white paper. Adjust the crop until the full signature fits.</li>
+        <li>Enter the applicant name if you want it included in the download file names, then download the JPEG files.</li>
+        <li>For one download containing both files, open Both + ZIP, prepare both images, and select Download ZIP.</li>
+      </ol>
+    </section>
+
+    <section class="content-section">
+      <h3>Common Mistakes That Get Your Driving Licence Photo Rejected</h3>
+      <p>A blurry image, a dark or patterned background, a cropped head, or a signature that is unclear can cause problems. Using a screenshot or an image that is already below the minimum file size can also make the upload unacceptable.</p>
+
+      <h3>Tips to Get It Right the First Time</h3>
+      <p>Face the camera directly with a relaxed expression and use even lighting. Wear no cap or dark glasses, and make sure normal glasses do not reflect light. Sign only on white paper so the signature remains clear after compression.</p>
+
+      <h3>Is This Tool Safe?</h3>
+      <p>Yes. The browser performs the crop, resize, DPI metadata update, compression, and ZIP creation locally. Your photograph and signature are not uploaded, stored, or sent to any server.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>What is the photo size for a driving licence?</summary>
+          <p>The official preferred photograph size is 420 × 525 px (W × H), equivalent to 35 × 45 mm. This tool also writes 300 DPI into the JPEG.</p>
+        </details>
+        <details>
+          <summary>What is the signature size for a driving licence?</summary>
+          <p>The official preferred signature size is 256 × 64 px (W × H). The signature should be made with a black pen on white paper.</p>
+        </details>
+        <details>
+          <summary>What is the maximum file size for a driving licence photo and signature?</summary>
+          <p>The official guidance states 10–20 KB for both the photograph and the signature. This tool keeps each JPEG within that range, up to the stated maximum.</p>
+        </details>
+        <details>
+          <summary>What DPI should a driving licence photo be?</summary>
+          <p>The official scanning guidance specifies a minimum of 300 DPI. This tool writes a 300 DPI JFIF density header into the output JPEG.</p>
+        </details>
+        <details>
+          <summary>Can I use a photo taken with my phone?</summary>
+          <p>Yes, if the image is clear and meets the portrait requirements. Upload the phone photo, then use the crop and zoom controls to match the preferred dimensions.</p>
+        </details>
+        <details>
+          <summary>Can I download the photo and signature together?</summary>
+          <p>Yes. Open Both + ZIP, upload both images, adjust each crop, and download one ZIP containing the photo and signature JPEG files.</p>
+        </details>
+        <details>
+          <summary>Does this tool upload my photo anywhere?</summary>
+          <p>No. All processing happens inside your browser. The tool does not send your photograph or signature to a server.</p>
+        </details>
+      </div>
+    </section>
+
+    <nav class="other-tools" aria-labelledby="site-nav-title">
+      <h2 id="site-nav-title">Government Form Photo Tools</h2>
+      <ul>
+        <li><a href="/">Photo and Signature Resizer</a></li>
+        <li><a href="/nsdl-pan-photo-resize/">NSDL PAN Photo &amp; Signature Resizer</a></li>
+        <li><a href="/driving-licence-photo/">Driving Licence Photo &amp; Signature Resizer</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <p>Specifications may change. Always check the latest requirements on the official application portal.</p>
+    <p>© 2026 Photo Form Resizer. All rights reserved.</p>
+  </footer>
+</body>
+</html>

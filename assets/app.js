@@ -20,6 +20,23 @@
   var editorInstances = [];
   var editorByRoot = new WeakMap();
 
+  function numberAttribute(root, name, fallback) {
+    var value = Number(root.getAttribute(name));
+    return Number.isFinite(value) && value > 0 ? value : fallback;
+  }
+
+  function editorSpec(kind, root) {
+    var fallback = SPECS[kind];
+    return {
+      label: fallback.label,
+      width: Math.round(numberAttribute(root, "data-width", fallback.width)),
+      height: Math.round(numberAttribute(root, "data-height", fallback.height)),
+      dpi: Math.round(numberAttribute(root, "data-dpi", 200)),
+      minBytes: Math.round(numberAttribute(root, "data-min-kb", 0) * 1024),
+      maxBytes: Math.round(numberAttribute(root, "data-max-kb", fallback.maxBytes / 1024) * 1024)
+    };
+  }
+
   function clamp(value, minimum, maximum) {
     return Math.min(Math.max(value, minimum), maximum);
   }
@@ -100,7 +117,9 @@
     });
   }
 
-  function ensureJfifDensity(blob) {
+  function ensureJfifDensity(blob, dpi) {
+    var density = Number(dpi) || 200;
+
     return blob.arrayBuffer().then(function (buffer) {
       var bytes = new Uint8Array(buffer);
       if (bytes.length < 4 || bytes[0] !== 0xFF || bytes[1] !== 0xD8) {
@@ -139,10 +158,10 @@
 
         if (isJfif) {
           bytes[offset + 11] = 1;
-          bytes[offset + 12] = 0;
-          bytes[offset + 13] = 200;
-          bytes[offset + 14] = 0;
-          bytes[offset + 15] = 200;
+          bytes[offset + 12] = (density >> 8) & 0xFF;
+          bytes[offset + 13] = density & 0xFF;
+          bytes[offset + 14] = (density >> 8) & 0xFF;
+          bytes[offset + 15] = density & 0xFF;
           return new Blob([bytes], { type: "image/jpeg" });
         }
 
@@ -154,8 +173,8 @@
         0x4A, 0x46, 0x49, 0x46, 0x00,
         0x01, 0x01,
         0x01,
-        0x00, 0xC8,
-        0x00, 0xC8,
+        (density >> 8) & 0xFF, density & 0xFF,
+        (density >> 8) & 0xFF, density & 0xFF,
         0x00, 0x00
       ]);
       var withHeader = new Uint8Array(bytes.length + app0.length);
@@ -167,17 +186,55 @@
     });
   }
 
-  function createJpegAtQuality(canvas, quality) {
-    return canvasToBlob(canvas, quality).then(ensureJfifDensity);
+  function padJpegToMinimum(blob, minBytes) {
+    if (!minBytes || blob.size >= minBytes) {
+      return Promise.resolve(blob);
+    }
+
+    return blob.arrayBuffer().then(function (buffer) {
+      var bytes = new Uint8Array(buffer);
+      if (bytes.length < 2 || bytes[bytes.length - 2] !== 0xFF || bytes[bytes.length - 1] !== 0xD9) {
+        return blob;
+      }
+
+      var segmentSize = Math.max(4, minBytes - bytes.length);
+      var payloadLength = segmentSize - 4;
+      var comment = new Uint8Array(segmentSize);
+      var commentLength = payloadLength + 2;
+      comment[0] = 0xFF;
+      comment[1] = 0xFE;
+      comment[2] = (commentLength >> 8) & 0xFF;
+      comment[3] = commentLength & 0xFF;
+      for (var index = 4; index < comment.length; index += 1) {
+        comment[index] = 0x20;
+      }
+
+      var padded = new Uint8Array(bytes.length + comment.length);
+      padded.set(bytes.subarray(0, bytes.length - 2), 0);
+      padded.set(comment, bytes.length - 2);
+      padded[padded.length - 2] = 0xFF;
+      padded[padded.length - 1] = 0xD9;
+      return new Blob([padded], { type: "image/jpeg" });
+    });
   }
 
-  function encodeToLimit(canvas, maxBytes) {
-    return createJpegAtQuality(canvas, 0.4).then(function (minimumBlob) {
+  function createJpegAtQuality(canvas, quality, dpi, minBytes) {
+    return canvasToBlob(canvas, quality)
+      .then(function (blob) {
+        return ensureJfifDensity(blob, dpi);
+      })
+      .then(function (blob) {
+        return padJpegToMinimum(blob, minBytes);
+      });
+  }
+
+  function encodeToLimit(canvas, maxBytes, dpi, minBytes) {
+    return createJpegAtQuality(canvas, 0.4, dpi, minBytes).then(function (minimumBlob) {
       if (minimumBlob.size > maxBytes) {
         return null;
       }
 
-      return createJpegAtQuality(canvas, 0.98).then(function (maximumBlob) {
+      return createJpegAtQuality(canvas, 0.98, dpi, minBytes).then(function (maximumBlob) {
         if (maximumBlob.size <= maxBytes) {
           return {
             blob: maximumBlob,
@@ -199,7 +256,7 @@
           }
 
           var midpoint = (low + high) / 2;
-          return createJpegAtQuality(canvas, midpoint).then(function (blob) {
+          return createJpegAtQuality(canvas, midpoint, dpi, minBytes).then(function (blob) {
             if (blob.size <= maxBytes) {
               bestBlob = blob;
               bestQuality = midpoint;
@@ -218,7 +275,7 @@
 
   function renderJpeg(editor) {
     var state = editor.state;
-    var spec = SPECS[editor.kind];
+    var spec = editor.spec;
 
     if (!state.image) {
       return Promise.reject(new Error("Please upload an image first."));
@@ -255,7 +312,7 @@
         height
       );
 
-      return encodeToLimit(canvas, spec.maxBytes).then(function (result) {
+      return encodeToLimit(canvas, spec.maxBytes, spec.dpi, spec.minBytes).then(function (result) {
         if (result) {
           return {
             blob: result.blob,
@@ -291,7 +348,7 @@
 
   function makeEditor(root) {
     var kind = root.getAttribute("data-kind");
-    var spec = SPECS[kind];
+    var spec = editorSpec(kind, root);
     var fileInput = root.querySelector("[data-file]");
     var workspace = root.querySelector("[data-workspace]");
     var canvas = root.querySelector("[data-canvas]");
@@ -500,6 +557,7 @@
     var editor = {
       root: root,
       kind: kind,
+      spec: spec,
       state: state,
       render: function () {
         return renderJpeg(editor);
