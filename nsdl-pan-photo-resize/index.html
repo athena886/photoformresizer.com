@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NSDL PAN Photo Resizer – 3.5×2.5 cm Photo &amp; 2×4.5 cm Signature</title>
+  <meta name="description" content="Resize photo to 3.5×2.5 cm (200 DPI, max 20 KB) and signature to 2×4.5 cm (200 DPI, max 10 KB) for your NSDL PAN application. Free, works on mobile, nothing is uploaded — all processing happens in your browser.">
+  <link rel="canonical" href="https://photoformresizer.com/nsdl-pan-photo-resize/">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <main class="site-main" id="main-content">
+    <section aria-labelledby="tool-title">
+      <p class="eyebrow" id="tool-title">NSDL PAN photo &amp; signature tool</p>
+
+      <div class="tool-card">
+        <p class="privacy-note">Images are not uploaded. Everything is processed inside your device.</p>
+
+        <div class="applicant-field">
+          <label for="applicant-name">Applicant name <span>(optional)</span></label>
+          <input id="applicant-name" type="text" autocomplete="name" inputmode="text" placeholder="Example: Ramesh">
+          <small>Used only for download file names.</small>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="NSDL PAN image preparation tools">
+          <button class="tab-button" id="tab-photo" type="button" role="tab" aria-selected="true" aria-controls="panel-photo">Photo</button>
+          <button class="tab-button" id="tab-signature" type="button" role="tab" aria-selected="false" aria-controls="panel-signature" tabindex="-1">Signature</button>
+          <button class="tab-button" id="tab-both" type="button" role="tab" aria-selected="false" aria-controls="panel-both" tabindex="-1">Both + ZIP</button>
+        </div>
+
+        <section class="tab-panel" id="panel-photo" role="tabpanel" aria-labelledby="tab-photo">
+          <div class="editor single-editor" data-editor data-kind="photo">
+            <label class="upload-box">
+              <span class="upload-title">Upload photograph</span>
+              <span class="upload-hint">Choose a clear photo from your phone or computer</span>
+              <input type="file" accept="image/*" data-file>
+            </label>
+
+            <div class="editor-workspace" data-workspace hidden>
+              <div class="preview-wrap">
+                <canvas class="crop-canvas" data-canvas aria-label="Photograph crop preview"></canvas>
+              </div>
+              <div class="editor-controls">
+                <label class="control-label" for="photo-zoom">Zoom to adjust the crop</label>
+                <div class="zoom-row">
+                  <span class="zoom-mark">Smaller</span>
+                  <input id="photo-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                  <span class="zoom-mark">Larger</span>
+                </div>
+              </div>
+              <div class="editor-actions">
+                <button class="button" type="button" data-download disabled>Download JPEG</button>
+                <p class="editor-status" data-status aria-live="polite">Drag the photo to adjust the crop.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="panel-signature" role="tabpanel" aria-labelledby="tab-signature" hidden>
+          <div class="editor single-editor" data-editor data-kind="signature">
+            <label class="upload-box">
+              <span class="upload-title">Upload signature photo</span>
+              <span class="upload-hint">Use a clean photo of your signature on white paper</span>
+              <input type="file" accept="image/*" data-file>
+            </label>
+
+            <div class="editor-workspace" data-workspace hidden>
+              <div class="preview-wrap signature-preview">
+                <canvas class="crop-canvas" data-canvas aria-label="Signature crop preview"></canvas>
+              </div>
+              <div class="editor-controls">
+                <label class="control-label" for="signature-zoom">Zoom to adjust the crop</label>
+                <div class="zoom-row">
+                  <span class="zoom-mark">Smaller</span>
+                  <input id="signature-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                  <span class="zoom-mark">Larger</span>
+                </div>
+              </div>
+              <div class="editor-actions">
+                <button class="button" type="button" data-download disabled>Download JPEG</button>
+                <p class="editor-status" data-status aria-live="polite">Drag the signature to adjust the crop.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="panel-both" role="tabpanel" aria-labelledby="tab-both" hidden>
+          <div class="editor-grid">
+            <div class="editor" data-editor data-kind="photo">
+              <label class="upload-box">
+                <span class="upload-title">Upload photograph</span>
+                <span class="upload-hint">Prepare the photograph first</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap">
+                  <canvas class="crop-canvas" data-canvas aria-label="Combined ZIP photograph crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="both-photo-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="both-photo-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the photo to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="editor" data-editor data-kind="signature">
+              <label class="upload-box">
+                <span class="upload-title">Upload signature</span>
+                <span class="upload-hint">Prepare the signature next</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap signature-preview">
+                  <canvas class="crop-canvas" data-canvas aria-label="Combined ZIP signature crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="both-signature-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="both-signature-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the signature to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zip-card">
+            <p class="zip-title">Download both files as one ZIP</p>
+            <p>Upload and adjust both images above, then create one ZIP for your application.</p>
+            <button class="button secondary" type="button" data-zip disabled>Download ZIP</button>
+            <p class="zip-status" data-zip-status aria-live="polite">Waiting for both images.</p>
+          </div>
+        </section>
+      </div>
+
+      <p class="spec-bar"><strong>Photograph</strong> 3.5×2.5 cm · 200 DPI · max 20 KB <span aria-hidden="true">|</span> <strong>Signature</strong> 2×4.5 cm · 200 DPI · max 10 KB</p>
+    </section>
+
+    <h1>NSDL PAN Photo Resizer – Resize Photo &amp; Signature to Exact Size</h1>
+    <p>Many NSDL PAN applications are returned because the photo or signature is the wrong size, does not have the required DPI, or is over the file size limit. Fixing the files after submission means another upload and more waiting. This tool prepares both images in the exact format before you apply.</p>
+
+    <section class="content-section">
+      <h2>NSDL PAN Photo and Signature Size Requirements</h2>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Requirement</th>
+              <th scope="col">Photograph</th>
+              <th scope="col">Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Size</th>
+              <td>3.5 (H) × 2.5 (W) cm</td>
+              <td>2 (H) × 4.5 (W) cm</td>
+            </tr>
+            <tr>
+              <th scope="row">DPI</th>
+              <td>200 DPI</td>
+              <td>200 DPI</td>
+            </tr>
+            <tr>
+              <th scope="row">Pixel size at 200 DPI</th>
+              <td>197 × 276 px (W × H)</td>
+              <td>354 × 158 px (W × H)</td>
+            </tr>
+            <tr>
+              <th scope="row">Format</th>
+              <td>JPEG</td>
+              <td>JPEG</td>
+            </tr>
+            <tr>
+              <th scope="row">Color</th>
+              <td>Color</td>
+              <td>Color</td>
+            </tr>
+            <tr>
+              <th scope="row">Maximum file size</th>
+              <td>20 KB</td>
+              <td>10 KB</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source-note">Source: <a href="https://tin.tin.proteantech.in/pan/form49Adsc.html" rel="noopener noreferrer">Protean / TIN official PAN application guidance</a> (official source).</p>
+    </section>
+
+    <section class="content-section">
+      <h2>How to Resize Photo and Signature for NSDL PAN</h2>
+      <ol>
+        <li>Open the Photo tab and upload a recent color photograph. Drag the preview and use the zoom control until the crop looks correct.</li>
+        <li>Open the Signature tab and upload a clear signature photo. Drag and zoom the preview so the full signature fits inside the frame.</li>
+        <li>Enter the applicant name if you want it included in the download file names, then download the JPEG files.</li>
+        <li>For a single download, open Both + ZIP, prepare both images, and use Download ZIP to get the photo and signature together.</li>
+      </ol>
+    </section>
+
+    <section class="content-section">
+      <h3>Common Mistakes That Get Your Application Rejected</h3>
+      <p>A blurry photo, a strong shadow across the face, the wrong aspect ratio, or a signature that is cut off can all cause a rejection. Uploading a file without the required DPI information can also fail even when the image looks correct on your phone.</p>
+
+      <h3>Tips to Get It Right the First Time</h3>
+      <p>Use even lighting and a plain, light background. Keep the whole face or full signature visible in the crop tool. Avoid screenshots, heavily edited images, and files that are already compressed to a very small size before processing.</p>
+
+      <h3>Is This Tool Safe?</h3>
+      <p>Yes. The tool uses the Canvas API in your browser. Your photo and signature are not uploaded, posted, or sent anywhere. All cropping, resizing, DPI writing, compression, and ZIP creation happen on your device.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>What is the photo size required for NSDL PAN card?</summary>
+          <p>The photograph must be 3.5 (H) × 2.5 (W) cm at 200 DPI. That converts to 197 × 276 px (W × H), in JPEG format, with a maximum file size of 20 KB.</p>
+        </details>
+        <details>
+          <summary>What is the signature size required for NSDL PAN?</summary>
+          <p>The signature must be 2 (H) × 4.5 (W) cm at 200 DPI. That converts to 354 × 158 px (W × H), in JPEG format, with a maximum file size of 10 KB.</p>
+        </details>
+        <details>
+          <summary>What is the maximum file size for NSDL PAN photo and signature?</summary>
+          <p>The photograph can be up to 20 KB and the signature can be up to 10 KB. This tool compresses each JPEG to stay within its limit while keeping the highest practical quality.</p>
+        </details>
+        <details>
+          <summary>My photo looks fine but the portal rejects it. Why?</summary>
+          <p>The image may have the wrong pixel dimensions, aspect ratio, JPEG DPI information, or file size. A visually correct photo can still fail if its metadata does not say 200 DPI. This tool writes the required JFIF density information into the downloaded JPEG.</p>
+        </details>
+        <details>
+          <summary>Can I prepare these images on my phone?</summary>
+          <p>Yes. The page is designed for mobile browsers and works with photos selected from an Android or iPhone. Keep the page open while the browser processes the images locally.</p>
+        </details>
+        <details>
+          <summary>What is the difference between NSDL and UTI PAN requirements?</summary>
+          <p>NSDL and UTI are different PAN service providers, so their portals can present application instructions separately. Always verify the current instructions for the provider you are using. If your application uses UTI, see the <a href="/uti-pan-photo-resizer/">UTI PAN photo resizer</a> page when it is available.</p>
+        </details>
+      </div>
+    </section>
+
+    <nav class="other-tools" aria-labelledby="other-tools-title">
+      <h2 id="other-tools-title">Other Government Form Photo Resizers</h2>
+      <ul>
+        <li><a href="/pan-card-photo-resizer/">PAN Card Photo Resizer</a></li>
+        <li><a href="/uti-pan-photo-resizer/">UTI PAN Photo Resizer</a></li>
+        <li><a href="/driving-licence-photo/">Driving Licence Photo Resizer</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <p>Specifications may change. Always check the latest requirements on the official application portal.</p>
+    <p>© 2026 Photo Form Resizer. All rights reserved.</p>
+  </footer>
+</body>
+</html>
