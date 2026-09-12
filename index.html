@@ -3,17 +3,155 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Photo Form Resizer – Government Form Photo Tools</title>
-  <meta name="description" content="Free browser-based tools for preparing government form photos and signatures to the required size, DPI, and file size.">
+  <title>Photo and Signature Resizer – Free Government Form Photo Tool</title>
+  <meta name="description" content="Resize your photo and signature to the exact size, DPI and file size a government form needs. Free, works on mobile, nothing is uploaded — all processing happens in your browser.">
   <link rel="canonical" href="https://photoformresizer.com/">
   <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
 </head>
 <body>
-  <main class="home-page">
-    <p class="eyebrow">Photo Form Resizer</p>
-    <h1>Government form photo tools that work in your browser.</h1>
-    <p class="home-copy">Prepare your photo and signature without uploading either file to a server.</p>
-    <a class="home-link" href="/nsdl-pan-photo-resize/">Resize photo and signature for NSDL PAN</a>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <main class="site-main" id="main-content">
+    <section aria-labelledby="tool-title">
+      <p class="eyebrow" id="tool-title" style="font-size:0.6rem; letter-spacing:0.02em; white-space:nowrap;">Default specs for government forms (NSDL PAN etc.).</p>
+
+      <div class="tool-card">
+        <p class="privacy-note">Images are not uploaded. Everything is processed inside your device.</p>
+
+        <div id="panel-both">
+          <div class="editor-grid">
+            <div class="editor" data-editor data-kind="photo" data-file-prefix="form">
+              <label class="upload-box">
+                <span class="upload-title">Upload photograph</span>
+                <span class="upload-hint">Target 3.5×2.5 cm · 200 DPI · max 20 KB</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap">
+                  <canvas class="crop-canvas" data-canvas aria-label="Government form photograph crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="home-photo-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="home-photo-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download photo JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the photo to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="editor" data-editor data-kind="signature" data-file-prefix="form">
+              <label class="upload-box">
+                <span class="upload-title">Upload signature</span>
+                <span class="upload-hint">Target 2×4.5 cm · 200 DPI · max 10 KB</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap signature-preview">
+                  <canvas class="crop-canvas" data-canvas aria-label="Government form signature crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="home-signature-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="home-signature-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download signature JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the signature to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zip-card">
+            <p class="zip-title">Download photo and signature as one ZIP</p>
+
+            <div class="applicant-field">
+              <label for="applicant-name">Applicant name <span>(optional)</span></label>
+              <input id="applicant-name" type="text" autocomplete="name" inputmode="text" placeholder="Example: Ramesh">
+              <small>Used only for download file names.</small>
+            </div>
+
+            <p>Prepare both images above, then download them together.</p>
+            <button class="button secondary" type="button" data-zip disabled>Download ZIP</button>
+            <p class="zip-status" data-zip-status aria-live="polite">Waiting for both images.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="spec-bar"><strong>Photograph</strong> 3.5×2.5 cm · 200 DPI · max 20 KB <span aria-hidden="true">|</span> <strong>Signature</strong> 2×4.5 cm · 200 DPI · max 10 KB</p>
+    </section>
+
+    <h1>Photo and Signature Resizer for Government Forms</h1>
+    <p>This free online tool prepares photos and signatures taken with a phone for government forms that require a specific size, DPI, and file size. Everything is processed in your browser, and your images are not uploaded.</p>
+
+    <section class="content-section">
+      <h2>Which forms can you use it for?</h2>
+      <ul>
+        <li><a href="/nsdl-pan-photo-resize/">NSDL PAN</a></li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>Why form photos get rejected</h2>
+      <p>One common reason is a size mismatch. A portal may require an exact physical size and pixel shape, while a phone photo is much larger and has a different aspect ratio.</p>
+      <p>Another reason is missing or incorrect DPI information. A JPEG can look correct but still fail when its metadata does not contain the DPI value the portal expects.</p>
+      <p>File size limits also cause rejections. A photo that is only slightly over the allowed KB can be rejected, even when its dimensions and DPI are correct.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Government photo resizer: what it should do</h2>
+      <p>A general image compression site may shrink a file, but it often does not write the required DPI metadata, target an exact KB ceiling, or prepare a photo and signature together. This tool crops to the target shape, writes the required JPEG density information, compresses to the stated limits, and lets you download both files as one ZIP.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>What size should a government form photo be?</summary>
+          <p>It depends on the form. The default photograph used here is 3.5×2.5 cm at 200 DPI, or 197×276 px (W × H). Always check the instructions for the exact form you are submitting.</p>
+        </details>
+        <details>
+          <summary>Why does the portal reject a photo that looks fine?</summary>
+          <p>The portal may be checking pixel dimensions, JPEG DPI metadata, the aspect ratio, or the file size. An image can look correct on screen while failing one of those technical requirements.</p>
+        </details>
+        <details>
+          <summary>Does this tool upload my photo anywhere?</summary>
+          <p>No. Cropping, resizing, DPI writing, compression, and ZIP creation all happen in your browser using the Canvas API. Your files are not uploaded to a server.</p>
+        </details>
+        <details>
+          <summary>Can I resize both photo and signature at the same time?</summary>
+          <p>Yes. Upload the photograph and signature, adjust each crop, and then download them together as one ZIP or download either JPEG separately.</p>
+        </details>
+        <details>
+          <summary>Is this free?</summary>
+          <p>Yes. The tool is free to use and does not require an account, subscription, or payment.</p>
+        </details>
+      </div>
+    </section>
+
+    <nav class="other-tools" aria-labelledby="site-nav-title">
+      <h2 id="site-nav-title">Government Form Photo Tools</h2>
+      <ul>
+        <li><a href="/nsdl-pan-photo-resize/">NSDL PAN Photo &amp; Signature Resizer</a></li>
+      </ul>
+    </nav>
   </main>
+
+  <footer class="site-footer">
+    <p>Specifications may change. Always check the latest requirements on the official application portal.</p>
+    <p>© 2026 Photo Form Resizer. All rights reserved.</p>
+  </footer>
 </body>
 </html>

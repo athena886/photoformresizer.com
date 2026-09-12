@@ -62,15 +62,25 @@
       .slice(0, 60);
   }
 
-  function outputFileName(kind) {
-    var baseName = kind === "photo" ? "nsdl-pan-photo.jpg" : "nsdl-pan-signature.jpg";
+  function filePrefix(root) {
+    var prefix = root && root.getAttribute("data-file-prefix");
+    if (!prefix) {
+      return "nsdl-pan";
+    }
+    return prefix.replace(/[^a-zA-Z0-9-]/g, "") || "nsdl-pan";
+  }
+
+  function outputFileName(kind, root) {
+    var baseName = filePrefix(root) + (kind === "photo" ? "-photo.jpg" : "-signature.jpg");
     var applicantName = safeApplicantName();
     return applicantName ? applicantName + "-" + baseName : baseName;
   }
 
-  function zipFileName() {
+  function zipFileName(root) {
+    var prefix = filePrefix(root);
+    var baseName = prefix === "nsdl-pan" ? "NSDL-PAN" : prefix + "-photo-and-signature";
     var applicantName = safeApplicantName();
-    return applicantName ? "NSDL-PAN-" + applicantName + ".zip" : "NSDL-PAN.zip";
+    return applicantName ? baseName + "-" + applicantName + ".zip" : baseName + ".zip";
   }
 
   function formatFileSize(bytes) {
@@ -473,7 +483,7 @@
       setStatus(status, "Compressing and preparing the JPEG...");
 
       renderJpeg(editor).then(function (result) {
-        var fileName = outputFileName(kind);
+        var fileName = outputFileName(kind, root);
         downloadBlob(result.blob, fileName);
         setButtonBusy(downloadButton, false, idleLabel);
         setStatus(
@@ -705,10 +715,10 @@
 
       Promise.all([photoEditor.render(), signatureEditor.render()]).then(function (results) {
         return createZip([
-          { name: outputFileName("photo"), blob: results[0].blob },
-          { name: outputFileName("signature"), blob: results[1].blob }
+          { name: outputFileName("photo", photoEditor.root), blob: results[0].blob },
+          { name: outputFileName("signature", signatureEditor.root), blob: results[1].blob }
         ]).then(function (zipBlob) {
-          var name = zipFileName();
+          var name = zipFileName(photoEditor.root);
           downloadBlob(zipBlob, name);
           setButtonBusy(zipButton, false, "Download ZIP");
           setStatus(zipStatus, "Saved " + name + " · " + formatFileSize(zipBlob.size), "success");
