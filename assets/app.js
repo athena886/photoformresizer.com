@@ -273,6 +273,29 @@
     });
   }
 
+  function drawRotatedCrop(context, image, rotation, crop, width, height) {
+    var sourceWidth = image.naturalWidth || image.width;
+    var sourceHeight = image.naturalHeight || image.height;
+    var scaleX = width / crop.width;
+    var scaleY = height / crop.height;
+    var transform;
+
+    if (rotation === 90) {
+      transform = [0, scaleY, -scaleX, 0, (sourceHeight - crop.x) * scaleX, -crop.y * scaleY];
+    } else if (rotation === 180) {
+      transform = [-scaleX, 0, 0, -scaleY, (sourceWidth - crop.x) * scaleX, (sourceHeight - crop.y) * scaleY];
+    } else if (rotation === 270) {
+      transform = [0, -scaleY, scaleX, 0, -crop.x * scaleX, (sourceWidth - crop.y) * scaleY];
+    } else {
+      transform = [scaleX, 0, 0, scaleY, -crop.x * scaleX, -crop.y * scaleY];
+    }
+
+    context.save();
+    context.setTransform(transform[0], transform[1], transform[2], transform[3], transform[4], transform[5]);
+    context.drawImage(image, 0, 0);
+    context.restore();
+  }
+
   function renderJpeg(editor) {
     var state = editor.state;
     var spec = editor.spec;
@@ -285,7 +308,8 @@
       x: state.crop.x,
       y: state.crop.y,
       width: state.crop.width,
-      height: state.crop.height
+      height: state.crop.height,
+      rotation: state.rotation
     };
 
     function attempt(scale, attemptNumber) {
@@ -300,17 +324,7 @@
       context.fillRect(0, 0, width, height);
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = "high";
-      context.drawImage(
-        state.image,
-        crop.x,
-        crop.y,
-        crop.width,
-        crop.height,
-        0,
-        0,
-        width,
-        height
-      );
+      drawRotatedCrop(context, state.image, crop.rotation, crop, width, height);
 
       return encodeToLimit(canvas, spec.maxBytes, spec.dpi, spec.minBytes).then(function (result) {
         if (result) {
@@ -355,7 +369,23 @@
     var zoomInput = root.querySelector("[data-zoom]");
     var downloadButton = root.querySelector("[data-download]");
     var status = root.querySelector("[data-status]");
+    var controls = root.querySelector(".editor-controls");
     var context = canvas.getContext("2d");
+    var rotateControls = document.createElement("div");
+    var rotateLeftButton = document.createElement("button");
+    var rotateRightButton = document.createElement("button");
+    rotateControls.className = "rotate-controls";
+    rotateLeftButton.className = "rotate-button";
+    rotateRightButton.className = "rotate-button";
+    rotateLeftButton.type = "button";
+    rotateRightButton.type = "button";
+    rotateLeftButton.textContent = "Rotate left";
+    rotateRightButton.textContent = "Rotate right";
+    rotateLeftButton.disabled = true;
+    rotateRightButton.disabled = true;
+    rotateControls.appendChild(rotateLeftButton);
+    rotateControls.appendChild(rotateRightButton);
+    controls.appendChild(rotateControls);
 
     var state = {
       image: null,
@@ -364,7 +394,8 @@
       crop: { x: 0, y: 0, width: 0, height: 0 },
       centerX: 0,
       centerY: 0,
-      zoom: 1
+      zoom: 1,
+      rotation: 0
     };
 
     function updateCrop() {
@@ -374,6 +405,11 @@
 
       var imageWidth = state.image.naturalWidth || state.image.width;
       var imageHeight = state.image.naturalHeight || state.image.height;
+      if (state.rotation === 90 || state.rotation === 270) {
+        var swap = imageWidth;
+        imageWidth = imageHeight;
+        imageHeight = swap;
+      }
       state.crop.width = state.baseCrop.width / state.zoom;
       state.crop.height = state.baseCrop.height / state.zoom;
       state.centerX = clamp(state.centerX, state.crop.width / 2, imageWidth - state.crop.width / 2);
@@ -397,17 +433,7 @@
       context.fillRect(0, 0, canvas.width, canvas.height);
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = "high";
-      context.drawImage(
-        state.image,
-        state.crop.x,
-        state.crop.y,
-        state.crop.width,
-        state.crop.height,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
+      drawRotatedCrop(context, state.image, state.rotation, state.crop, canvas.width, canvas.height);
     }
 
     function updateCropAndDraw(message) {
@@ -421,6 +447,11 @@
     function resetCrop() {
       var imageWidth = state.image.naturalWidth || state.image.width;
       var imageHeight = state.image.naturalHeight || state.image.height;
+      if (state.rotation === 90 || state.rotation === 270) {
+        var swap = imageWidth;
+        imageWidth = imageHeight;
+        imageHeight = swap;
+      }
       var targetAspect = spec.width / spec.height;
       var sourceAspect = imageWidth / imageHeight;
 
@@ -460,9 +491,12 @@
 
         state.image = image;
         state.imageUrl = nextUrl;
+        state.rotation = 0;
         workspace.hidden = false;
         zoomInput.disabled = false;
         downloadButton.disabled = false;
+        rotateLeftButton.disabled = false;
+        rotateRightButton.disabled = false;
         resetCrop();
         setStatus(status, "Image ready. Drag the preview or use Zoom to adjust the crop.");
         root.dispatchEvent(new CustomEvent("editorready"));
@@ -483,6 +517,23 @@
     zoomInput.addEventListener("input", function () {
       state.zoom = Number(zoomInput.value);
       updateCropAndDraw();
+    });
+
+    function rotateImage(degrees) {
+      if (!state.image) {
+        return;
+      }
+      state.rotation = (state.rotation + degrees + 360) % 360;
+      resetCrop();
+      setStatus(status, "Image rotated. Drag the preview or use Zoom to adjust the crop.");
+    }
+
+    rotateLeftButton.addEventListener("click", function () {
+      rotateImage(-90);
+    });
+
+    rotateRightButton.addEventListener("click", function () {
+      rotateImage(90);
     });
 
     canvas.addEventListener("pointerdown", function (event) {

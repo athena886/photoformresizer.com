@@ -306,6 +306,34 @@ li {
   font-weight: 750;
 }
 
+.rotate-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.rotate-button {
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid #b9c5bd;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.rotate-button:hover:not(:disabled) {
+  border-color: var(--saffron);
+  background: #fffaf5;
+}
+
+.rotate-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
 .editor-actions {
   display: grid;
   grid-template-columns: 1fr;
