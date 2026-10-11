@@ -13,18 +13,21 @@
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <main class="site-main" id="main-content">
+    <h1>Photo and Signature Resizer for Online Forms</h1>
+    <p>Resize and compress a photo or signature to your form’s pixel dimensions, DPI and KB range. Free JPEG downloads, no account and no image uploads.</p>
+    <nav class="form-picker" aria-label="Choose your application"><a href="/nsdl-pan-photo-resize/">NSDL PAN · 20 / 10 KB</a><a href="/driving-licence-photo/">Driving Licence · 10–20 KB</a><a href="/tnpsc-photo-signature-resize/">TNPSC · OTR &amp; departmental exams</a></nav>
     <section aria-labelledby="tool-title">
-      <p class="eyebrow" id="tool-title" style="font-size:0.8rem;">Default specs for government forms (NSDL PAN etc.).</p>
+      <p class="eyebrow" id="tool-title" style="font-size:0.8rem;">Custom photo and signature sizes · starts with the NSDL PAN preset</p>
 
       <div class="tool-card">
         <p class="privacy-note">Images are not uploaded. Everything is processed inside your device.</p>
 
         <div id="panel-both">
           <div class="editor-grid">
-            <div class="editor" data-editor data-kind="photo" data-file-prefix="form">
+            <div class="editor" data-editor data-kind="photo" data-file-prefix="form"><form data-settings class="size-settings"><fieldset><legend>Photo output settings</legend><div class="settings-grid"><label>Width (px)<input name="width" type="number" value="197" min="1" max="4000" step="1" required></label><label>Height (px)<input name="height" type="number" value="276" min="1" max="4000" step="1" required></label><label>DPI<input name="dpi" type="number" value="200" min="1" max="1200" step="1" required></label><label>Minimum KB<input name="min-kb" type="number" value="0" min="0" max="2048" step=".01" required></label><label>Maximum KB<input name="max-kb" type="number" value="20" min="1" max="2048" step=".01" required></label></div><button class="button" type="submit">Apply settings</button><p data-settings-status aria-live="polite">Sizes are width × height. Apply changes before downloading.</p></fieldset></form>
               <label class="upload-box">
                 <span class="upload-title">Upload photograph</span>
-                <span class="upload-hint">Target 3.5×2.5 cm · 200 DPI · max 20 KB</span>
+                <span class="upload-hint">Starting preset: 197 W × 276 H px · 200 DPI · max 20 KB</span>
                 <input type="file" accept="image/*" data-file>
               </label>
 
@@ -47,10 +50,10 @@
               </div>
             </div>
 
-            <div class="editor" data-editor data-kind="signature" data-file-prefix="form">
+            <div class="editor" data-editor data-kind="signature" data-file-prefix="form"><form data-settings class="size-settings"><fieldset><legend>Signature output settings</legend><div class="settings-grid"><label>Width (px)<input name="width" type="number" value="354" min="1" max="4000" step="1" required></label><label>Height (px)<input name="height" type="number" value="158" min="1" max="4000" step="1" required></label><label>DPI<input name="dpi" type="number" value="200" min="1" max="1200" step="1" required></label><label>Minimum KB<input name="min-kb" type="number" value="0" min="0" max="2048" step=".01" required></label><label>Maximum KB<input name="max-kb" type="number" value="10" min="1" max="2048" step=".01" required></label></div><button class="button" type="submit">Apply settings</button><p data-settings-status aria-live="polite">Sizes are width × height. Apply changes before downloading.</p></fieldset></form>
               <label class="upload-box">
                 <span class="upload-title">Upload signature</span>
-                <span class="upload-hint">Target 2×4.5 cm · 200 DPI · max 10 KB</span>
+                <span class="upload-hint">Starting preset: 354 W × 158 H px · 200 DPI · max 10 KB</span>
                 <input type="file" accept="image/*" data-file>
               </label>
 
@@ -90,16 +93,17 @@
         </div>
       </div>
 
-      <p class="spec-bar"><strong>Photograph</strong> 3.5×2.5 cm · 200 DPI · max 20 KB <span aria-hidden="true">|</span> <strong>Signature</strong> 2×4.5 cm · 200 DPI · max 10 KB</p>
+      <p>Use the settings above for custom sizes, including a signature under 20 KB. The values below describe the starting preset only.</p><p class="spec-bar"><strong>Photograph</strong> 3.5×2.5 cm · 200 DPI · max 20 KB <span aria-hidden="true">|</span> <strong>Signature</strong> 2×4.5 cm · 200 DPI · max 10 KB</p>
     </section>
 
-    <h1>Photo and Signature Resizer for Government Forms</h1>
-    <p>This free online tool prepares photos and signatures taken with a phone for government forms that require a specific size, DPI, and file size. Everything is processed in your browser, and your images are not uploaded.</p>
+    <h2>How to resize a photo and signature</h2>
+    <p>Enter your portal’s width, height, DPI and file size limits, then apply settings. Upload each image, drag or zoom to crop, and download the JPEGs separately or together as a ZIP. The starting preset is for the linked NSDL PAN process; it is not a universal government form size.</p>
 
     <section class="content-section">
       <h2>Which forms can you use it for?</h2>
       <ul>
         <li><a href="/nsdl-pan-photo-resize/">NSDL PAN</a></li>
+        <li><a href="/tnpsc-photo-signature-resize/">TNPSC Photo &amp; Signature Resizer</a></li>
         <li><a href="/driving-licence-photo/">Driving Licence</a></li>
       </ul>
     </section>
@@ -147,6 +151,7 @@
       <ul>
         <li><a href="/">Photo and Signature Resizer</a></li>
         <li><a href="/nsdl-pan-photo-resize/">NSDL PAN Photo &amp; Signature Resizer</a></li>
+        <li><a href="/tnpsc-photo-signature-resize/">TNPSC Photo &amp; Signature Resizer</a></li>
         <li><a href="/driving-licence-photo/">Driving Licence Photo &amp; Signature Resizer</a></li>
       </ul>
     </nav>

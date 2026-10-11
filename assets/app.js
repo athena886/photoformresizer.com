@@ -88,6 +88,8 @@
   }
 
   function outputFileName(kind, root) {
+    var flow = document.querySelector("[data-tnpsc-preset]");
+    if (flow && flow.value === "otr") return kind === "photo" ? "Photograph.jpg" : "Signature.jpg";
     var baseName = filePrefix(root) + (kind === "photo" ? "-photo.jpg" : "-signature.jpg");
     var applicantName = safeApplicantName();
     return applicantName ? applicantName + "-" + baseName : baseName;
@@ -229,7 +231,7 @@
   }
 
   function encodeToLimit(canvas, maxBytes, dpi, minBytes) {
-    return createJpegAtQuality(canvas, 0.4, dpi, minBytes).then(function (minimumBlob) {
+    return createJpegAtQuality(canvas, 0.05, dpi, minBytes).then(function (minimumBlob) {
       if (minimumBlob.size > maxBytes) {
         return null;
       }
@@ -242,10 +244,10 @@
           };
         }
 
-        var low = 0.4;
+        var low = 0.05;
         var high = 0.98;
         var bestBlob = minimumBlob;
-        var bestQuality = 0.4;
+        var bestQuality = 0.05;
 
         function search(index) {
           if (index >= 10) {
@@ -299,6 +301,12 @@
   function renderJpeg(editor) {
     var state = editor.state;
     var spec = editor.spec;
+    if (editor.root.hasAttribute("data-settings-dirty")) {
+      return Promise.reject(new Error("Apply your changed output settings before downloading."));
+    }
+    if (editor.root.hasAttribute("data-needs-dimensions")) {
+      return Promise.reject(new Error("Enter the pixel width and height shown on your upload portal, then apply settings."));
+    }
 
     if (!state.image) {
       return Promise.reject(new Error("Please upload an image first."));
@@ -312,9 +320,9 @@
       rotation: state.rotation
     };
 
-    function attempt(scale, attemptNumber) {
-      var width = Math.max(1, Math.round(spec.width * scale));
-      var height = Math.max(1, Math.round(spec.height * scale));
+    function attempt() {
+      var width = Math.max(1, Math.round(spec.width));
+      var height = Math.max(1, Math.round(spec.height));
       var canvas = document.createElement("canvas");
       canvas.width = width;
       canvas.height = height;
@@ -336,15 +344,11 @@
           };
         }
 
-        if (attemptNumber >= 9) {
-          throw new Error("The image could not be reduced below the required file size.");
-        }
-
-        return attempt(scale * 0.9, attemptNumber + 1);
+        throw new Error("Cannot meet the KB limit at the required pixel dimensions. Try a clearer, simpler source image or check the requested limit. Dimensions have not been changed.");
       });
     }
 
-    return attempt(1, 0);
+    return attempt();
   }
 
   function downloadBlob(blob, fileName) {
@@ -468,6 +472,32 @@
       state.zoom = 1;
       zoomInput.value = "1";
       updateCropAndDraw();
+    }
+
+    var settings = root.querySelector("[data-settings]");
+    if (settings) {
+      settings.addEventListener("input", function () { root.setAttribute("data-settings-dirty", "true"); });
+      settings.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!settings.reportValidity()) return;
+        var values = {};
+        ["width", "height", "dpi", "min-kb", "max-kb"].forEach(function (name) {
+          values[name] = Number(settings.querySelector('[name="' + name + '"]').value);
+        });
+        if (values["min-kb"] > values["max-kb"]) {
+          setStatus(settings.querySelector("[data-settings-status]"), "Minimum KB must not exceed maximum KB.", "error");
+          return;
+        }
+        spec.width = values.width;
+        spec.height = values.height;
+        spec.dpi = values.dpi;
+        spec.minBytes = Math.round(values["min-kb"] * 1024);
+        spec.maxBytes = Math.floor(values["max-kb"] * 1024);
+        root.removeAttribute("data-needs-dimensions");
+        root.removeAttribute("data-settings-dirty");
+        if (state.image) resetCrop();
+        setStatus(settings.querySelector("[data-settings-status]"), "Applied: " + spec.width + " × " + spec.height + " px (W × H), " + spec.dpi + " DPI, " + values["min-kb"] + "–" + values["max-kb"] + " KB. Check your crop before downloading.", "success");
+      });
     }
 
     function loadFile(file) {
@@ -840,6 +870,27 @@
   }
 
   editorInstances = Array.prototype.slice.call(document.querySelectorAll("[data-editor]")).map(makeEditor);
+  var tnpscPreset = document.querySelector("[data-tnpsc-preset]");
+  if (tnpscPreset) {
+    tnpscPreset.addEventListener("change", function () {
+      var otr = tnpscPreset.value === "otr";
+      editorInstances.forEach(function (editor) {
+        var photo = editor.kind === "photo";
+        var form = editor.root.querySelector("[data-settings]");
+        var preset = otr ? [0, 0, 200, photo ? 20 : 10, photo ? 50 : 20] : [125, photo ? 165 : 80, 200, photo ? 30 : 20, photo ? 40 : 30];
+        ["width", "height", "dpi", "min-kb", "max-kb"].forEach(function (name, index) {
+          form.querySelector('[name="' + name + '"]').value = preset[index] || "";
+        });
+        if (otr) {
+          editor.root.setAttribute("data-needs-dimensions", "true");
+          setStatus(form.querySelector("[data-settings-status]"), "OTR: enter portal pixel dimensions and apply. The official FAQ specifies KB and DPI, but no pixel dimensions.");
+        } else {
+          form.requestSubmit();
+        }
+      });
+      document.querySelector("[data-preset-note]").textContent = otr ? "OTR selected: 20–50 KB photo, 10–20 KB signature, 200 DPI. Enter the dimensions required by your current upload screen before downloading." : "Departmental exam selected: photo 125 W × 165 H px, 30–40 KB; signature 125 W × 80 H px, 20–30 KB. This is a separate application flow; verify your notification.";
+    });
+  }
   initTabs();
   initCombinedZip();
 }());

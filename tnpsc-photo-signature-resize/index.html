@@ -1,0 +1,95 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TNPSC Photo &amp; Signature Resizer – OTR and Departmental Exam Sizes</title>
+<meta name="description" content="Free TNPSC photo and signature resizer. OTR: photo 20–50 KB, signature 10–20 KB at 200 DPI. Separate departmental exam preset, crop and JPEG downloads.">
+<link rel="canonical" href="https://photoformresizer.com/tnpsc-photo-signature-resize/"><link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script></head><body><a class="skip-link" href="#main-content">Skip to content</a><main class="site-main" id="main-content">
+<p class="eyebrow">Free TNPSC photo compressor and signature tool</p><h1>TNPSC Photo and Signature Resizer</h1>
+<p>Choose the application flow before resizing. TNPSC One Time Registration (OTR) and departmental exams use different photo and signature file size ranges.</p>
+<label class="control-label" for="tnpsc-flow">What are you applying for?</label><select id="tnpsc-flow" data-tnpsc-preset><option value="otr">One Time Registration (OTR)</option><option value="departmental">Departmental exam — 2021 instructions preset</option></select>
+<p data-preset-note>OTR selected: 20–50 KB photo, 10–20 KB signature, 200 DPI. Enter the dimensions required by your current upload screen before downloading.</p>
+<section aria-label="TNPSC photo and signature tool">      <div class="tool-card">
+        <p class="privacy-note">Images are not uploaded. Everything is processed inside your device.</p>
+
+        <div id="panel-both">
+          <div class="editor-grid">
+            <div class="editor" data-editor data-kind="photo" data-file-prefix="tnpsc" data-needs-dimensions="true"><form data-settings class="size-settings"><fieldset><legend>Photo output settings</legend><div class="settings-grid"><label>Width (px)<input name="width" type="number" value="" min="1" max="4000" step="1" required></label><label>Height (px)<input name="height" type="number" value="" min="1" max="4000" step="1" required></label><label>DPI<input name="dpi" type="number" value="200" min="1" max="1200" step="1" required></label><label>Minimum KB<input name="min-kb" type="number" value="20" min="0" max="2048" step=".01" required></label><label>Maximum KB<input name="max-kb" type="number" value="50" min="1" max="2048" step=".01" required></label></div><button class="button" type="submit">Apply settings</button><p data-settings-status aria-live="polite">Enter the width and height required by your upload portal, then apply.</p></fieldset></form>
+              <label class="upload-box">
+                <span class="upload-title">Upload photograph</span>
+                <span class="upload-hint">Choose your TNPSC flow and apply its settings</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap">
+                  <canvas class="crop-canvas" data-canvas aria-label="Government form photograph crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="home-photo-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="home-photo-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download photo JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the photo to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="editor" data-editor data-kind="signature" data-file-prefix="tnpsc" data-needs-dimensions="true"><form data-settings class="size-settings"><fieldset><legend>Signature output settings</legend><div class="settings-grid"><label>Width (px)<input name="width" type="number" value="" min="1" max="4000" step="1" required></label><label>Height (px)<input name="height" type="number" value="" min="1" max="4000" step="1" required></label><label>DPI<input name="dpi" type="number" value="200" min="1" max="1200" step="1" required></label><label>Minimum KB<input name="min-kb" type="number" value="10" min="0" max="2048" step=".01" required></label><label>Maximum KB<input name="max-kb" type="number" value="20" min="1" max="2048" step=".01" required></label></div><button class="button" type="submit">Apply settings</button><p data-settings-status aria-live="polite">Enter the width and height required by your upload portal, then apply.</p></fieldset></form>
+              <label class="upload-box">
+                <span class="upload-title">Upload signature</span>
+                <span class="upload-hint">Choose your TNPSC flow and apply its settings</span>
+                <input type="file" accept="image/*" data-file>
+              </label>
+
+              <div class="editor-workspace" data-workspace hidden>
+                <div class="preview-wrap signature-preview">
+                  <canvas class="crop-canvas" data-canvas aria-label="Government form signature crop preview"></canvas>
+                </div>
+                <div class="editor-controls">
+                  <label class="control-label" for="home-signature-zoom">Zoom to adjust the crop</label>
+                  <div class="zoom-row">
+                    <span class="zoom-mark">Smaller</span>
+                    <input id="home-signature-zoom" type="range" min="1" max="3" step="0.01" value="1" data-zoom disabled>
+                    <span class="zoom-mark">Larger</span>
+                  </div>
+                </div>
+                <div class="editor-actions">
+                  <button class="button" type="button" data-download disabled>Download signature JPEG</button>
+                  <p class="editor-status" data-status aria-live="polite">Drag the signature to adjust the crop.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="zip-card">
+            <p class="zip-title">Download photo and signature as one ZIP</p>
+
+            <div class="applicant-field">
+              <label for="applicant-name">Applicant name <span>(optional)</span></label>
+              <input id="applicant-name" type="text" autocomplete="name" inputmode="text" placeholder="Example: Ramesh">
+              <small>Used only for download file names.</small>
+            </div>
+
+            <p>Prepare both images above, then download them together.</p>
+            <button class="button secondary" type="button" data-zip disabled>Download ZIP</button>
+            <p class="zip-status" data-zip-status aria-live="polite">Waiting for both images.</p>
+          </div>
+        </div>
+      </div>
+
+</section>
+<section class="content-section"><h2>TNPSC photo and signature size: which requirements apply?</h2><div class="table-scroll"><table><thead><tr><th>Application flow</th><th>Photo</th><th>Signature</th></tr></thead><tbody><tr><th>OTR — official FAQ, question 14</th><td>20–50 KB, JPEG, 200 DPI</td><td>10–20 KB, JPEG, 200 DPI</td></tr><tr><th>Departmental exam — 2021 instructions</th><td>30–40 KB; document lists 165 × 125 pixels</td><td>20–30 KB; document lists 80 × 125 pixels</td></tr></tbody></table></div>
+<p>The OTR FAQ does not specify pixel width and height. Enter the dimensions on your upload screen; this tool does not assume that the departmental exam dimensions apply to OTR.</p>
+<p>The departmental preset uses a portrait photo (125 W × 165 H) and landscape signature (125 W × 80 H). The source lists dimensions without W/H labels. Compare the orientation with your portal before using this preset; you can edit either dimension. The departmental source does not specify DPI; 200 DPI is an editable tool default for that preset.</p>
+<p class="source-note">Sources checked 11 October 2026: <a href="https://www.tnpsc.gov.in/static_pdf/document/FAQ_English.pdf">TNPSC official FAQ, question 14</a> and <a href="https://www.tnpsc.gov.in/Document/Department/English/2021_01_Deptl_Eng_annexure_I_Ins.pdf">2021 departmental exam instructions, point 6</a>. Follow the current notification and upload screen if they differ.</p></section>
+<section><h2>How to compress a TNPSC photo or signature</h2><ol><li>Select OTR or the departmental exam preset.</li><li>For OTR, enter the pixel dimensions displayed by your upload portal. Apply settings separately for the photo and signature.</li><li>Upload a clear source image and adjust the crop without cutting off your face or signature.</li><li>Download each JPEG. Check the reported pixels and file size, OTR files are automatically named Photograph.jpg and Signature.jpg as requested in the official FAQ.</li><li>Upload the JPEGs to the application portal. The ZIP is only for storing both files together.</li></ol></section>
+<section><h2>Frequently asked questions</h2><div class="faq-list">
+<details><summary>What is the TNPSC photo size in KB?</summary><p>The official OTR FAQ specifies 20–50 KB. The linked departmental instructions specify 30–40 KB. Choose the requirements for your application flow.</p></details>
+<details><summary>What is the TNPSC signature size?</summary><p>OTR specifies 10–20 KB at 200 DPI. The linked departmental instructions specify 20–30 KB and list 80 × 125 pixels. These are separate requirements.</p></details>
+<details><summary>Can I use this for TNPSC Group 4?</summary><p>Use OTR requirements for the registration step. For the Group 4 application itself, read its current notification for photo date, name/date printing, dimensions and other requirements. This tool crops and compresses; it does not add a name/date strip or verify eligibility.</p></details>
+<details><summary>Why is my TNPSC photo rejected even when its KB size is correct?</summary><p>Check the application flow, pixel dimensions, JPEG format, required photo age, background and any name/date requirement. Changing DPI metadata cannot restore detail in a blurry source image.</p></details>
+<details><summary>Is this TNPSC photo compressor free and private?</summary><p>Yes. Image processing and downloads happen on your device. No account or payment is required. This is an independent tool, not a TNPSC service.</p></details></div></section>
+<nav class="other-tools"><h2>More photo and signature tools</h2><ul><li><a href="/">Custom Photo and Signature Resizer</a></li><li><a href="/nsdl-pan-photo-resize/">NSDL PAN Resizer</a></li><li><a href="/driving-licence-photo/">Driving Licence Resizer</a></li></ul></nav></main><footer class="site-footer"><p>Independent tool. Always check your current official application instructions.</p><p>© 2026 Photo Form Resizer</p></footer></body></html>

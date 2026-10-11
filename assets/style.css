@@ -636,3 +636,13 @@ details p {
     transition-duration: 0.01ms !important;
   }
 }
+
+.form-picker { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
+.form-picker a { padding: 10px 14px; background: var(--green-soft); border-radius: 10px; font-weight: 700; }
+.size-settings { margin-bottom: 14px; }
+.size-settings fieldset { border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+.settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+.settings-grid label { font-size: .84rem; font-weight: 700; }
+.settings-grid input, select { display: block; width: 100%; min-height: 44px; padding: 8px; border: 1px solid #b9c5bd; border-radius: 8px; background: white; font: inherit; }
+[data-settings-status] { font-size: .84rem; margin-bottom: 0; }
+[data-settings-status][data-tone="error"] { color: var(--danger); }
